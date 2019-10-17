@@ -1,0 +1,28 @@
+post = Post.find_by(id: 1)    #投稿の編集、updated_atも勝手に更新される
+post.content = "Rails"
+post.save
+
+post.destroyでデータベースから削除できる
+
+
+ビューに<textarea><%= @post.content %></textarea>と書くと入力フォームに初期値を設定できる
+
+
+paramsはルーティングのurl部分の:~~の他にビューのname属性の値も受け取ることができる
+例えば、ビューに
+<%= form_tag("/posts/#{@post.id}/update") do %>
+  <textarea name="content">...<textarea>
+<% end %>
+アクションに
+def update
+  @post = Post.find_by(id: params[:id])    #params[:id]はルーティングから受け取ってる
+  @post.content = params[:content]    #params[:content]はビューのname属性が受け取ってる
+  @post.save
+
+
+アクションにはgetとpostがあるが、getはデータベースを変更しないアクションでpostはデータベースを変更するアクションという違いがある
+
+link_toのURL先がpostアクションだった場合、ビューが見つからないためエラーとなる
+<%= link_to("削除", "/posts/#{@post.id}/destroy", {method: "post"}) %>と書いてpostのルーティングにマッチすることができる
+
+

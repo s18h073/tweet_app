@@ -1,0 +1,37 @@
+gemとは、RubyやRailsでプログラミングする際によく使う機能をパッケージ化したもの
+
+app/gemfileはインストールしたいgemを記述するファイルである
+gem 'gemの名前', 'gemのバージョン'とすることで記述したバージョンのgemがインストールすることが可能
+'gemのバージョン'は省略したら最新のものがインストールされる
+例えば、Gemfileにgem 'bcrypt'、ターミナルでbundle installと実行すると書かれたgemをインストールできる
+
+
+bcryptをインストールするとhas_secure_passwordというメソッドが使える
+app/models/user.rbにhas_secure_passwordと書くと、ユーザーを保存する際に自動的にパスワードを暗号化してくれる
+
+
+マイグレーションファイルは複数のカラムを変更することが可能
+例えば
+def change
+  add_column :users, :password_digest, :string    #password_digestカラムを追加
+  remove_column :users, :password, :string    #passwordカラムを削除
+end
+でrails db:migrateを実行すると2つのカラムを変更できる
+
+
+has_secure_passwordは戻り値をテーブルのpassword_digestカラムにしか返せないらしい(?)だからpasswordカラムを消してpassword_digestカラムを追加したらしい
+また、has_secure_passwordによってpassword(とpassword_confirmation)という属性(?)を使用できる
+なので、コントローラ等でpasswordを書き換えたい場合等はpassword_digestカラムを参照するのではなく、passwordを参照する
+rails console
+user = User.find_by(id: 1)
+#user.password_digest = "~"    #これは間違い
+user.password = "~"    #こう書くのが正解、has_secure_passwordが呼び出され、password_digestに暗号化された値が送られる
+
+
+has_secure_passwordを有効にすると、authenticateメソッドを使えるようになる
+これは渡された引数を暗号化し、password_digestの値と一致するかどうかを判定してくれる
+def login
+  @user = User.find_by(email: params[:email])
+  if @user && @user.authenticate(params[:password])    #@user.password_digest.authenticateとする必要はない
+    ...
+end

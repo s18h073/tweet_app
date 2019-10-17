@@ -1,0 +1,16 @@
+<div class="main users-edit">
+  <div class="container">
+    <div class="form-heading">アカウント削除</div>
+    <div class="form users-form">
+      <div class="form-body">
+        <p>このアカウントを削除しますか？</p>
+        <%= link_to("/users/#{@user.id}/destroy", {method:"post"}) do %>
+          <input type="button" value="はい">
+        <% end %>
+        <%= link_to("/users/#{@user.id}/edit") do %>
+          <input type="button" value="いいえ">
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

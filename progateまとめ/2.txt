@@ -1,0 +1,41 @@
+ビューファイルに<% %>と書くとその中にrubyコードを記述できる
+ブラウザに表示したいときは<%= %>
+
+
+<% posts.each do |post| %>    ループ文を書くとき
+  <%= post %>
+<% end %>
+
+
+通常、アクションで定義した変数はビューでは使えないが、@変数とするとビューでも使えるようになる
+
+
+データベースの1つの表をテーブルといい、縦の列はカラム、1行ずつのデータのことをレコードという
+rails g model （（モデル名）postsテーブルを作成したいなら）Post カラム名：データ型のように作成する
+それを実行するとdb/migrateにマイグレーションファイルとapp/modelsにモデルが作成される
+
+作成時などデータベースの変更をしたときはrails db:migrateを打って変更を保存する
+
+
+ターミナルにrails consoleを打つとコンソールが起動できる
+quitで終了できる
+
+
+post = Post.new(content:"~")でcontentが~のPostインスタンスを作成できる
+post.saveでセーブできる
+
+
+post = Post.firstで最初の行のデータを取り出せる
+post.contentで~を表示できる
+
+post = Post.allですべてのデータをリストで取り出せる
+
+これらをコンソール上ではなくコントローラやビューでやればブラウザにデータベースの内容を表示できる
+
+
+共通のレイアウト（headerなど）はviews/layouts/application.html.erbに書くことができる
+そこに書かれてる<%= yield %>に自分が作ったファイルのhtmlが代入される
+
+
+<%= link_to("About", "/about") %>    この２つは同義
+<a href="/about">About</a>

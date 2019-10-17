@@ -1,0 +1,43 @@
+テーブル作成時にidカラムが勝手にできるがこれにはデータベースに保存されるときに数字が自動で入る。
+データごとに重複しないように数字が入っていく
+
+created_atカラムとupdated_atカラムも自動で作成され時刻が自動で入る
+
+
+post = Post.find_by(id: 3)でidが3のデータを取り出せる
+
+
+ルーティングにget "posts/:id" => "posts#show"と書くと/posts/1でも/posts/2でもshowアクションに行くように設定できる
+URL部分の:idはどっからかidの値を持ってきているのではなく、:~~と書くと/posts/??のような全てのURLが該当するようになるだけ
+
+posts/:idを上に書いてposts/indexを下に書くと、/posts/indexにアクセスしたときにposts/:idと認識されてしまう
+posts/:idなど:~~と書いてるやつは下に書くようにする
+
+コントローラに@id = params[:id]と書くとルーティングの:idの部分を取り出せる
+例えば、URLに/posts/3と入力されると、:idは3なので、@idには3が入る
+つまり、@post = Post.find_by(id: params[:id])で入力されたURLに一致するデータが取り出せる
+
+
+link_toはrubyの文法のため、変数展開が使える
+<%= link_to(post.content, "/posts/#{post.id}") %>など
+
+
+入力フォームはhtmlの<textarea></textarea>や<input type="submit" value="投稿">を使う
+
+
+フォームの値を受け取るときは、getではなくpostにする
+post "posts/create" => "posts#create"など
+
+<%= form_tag("/posts/create") do %>と書くと"~"のURLにデータが送信される（そのアクションにデータが渡る）
+最後は<% end %>を書き、この中に入力フォームが入るようにする
+
+
+コントローラにredirect_to("~")と書くと"~"と書かれたURLのページに転送する
+
+
+<textarea>タグにname属性を指定するとname属性の値をキーとしたハッシュ例えば、<textarea name="content"></textarea>とし、その中に"a"と入力されたら{content: "a"}が送られる
+
+
+orderメソッドを用いると並び替えができる
+例えば、@posts = Post.all.order(created_at: :desc)で新しいもの順になる
+:ascは昇順で、:descは降順という意味

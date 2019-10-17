@@ -1,0 +1,14 @@
+//user show
+
+  def show
+    @user = User.find_by(id: params[:id])
+    @posts = Post.where(user_id: params[:id])
+
+    retweets = Retweet.where(user_id: params[:id])
+    retweets.each do |retweet|
+      @posts += [retweet.post]
+    end
+    if @posts.count >= 2
+      @posts.sort_by {|post| post.updated_at}.reverse
+    end
+  end

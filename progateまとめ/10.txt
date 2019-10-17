@@ -1,0 +1,16 @@
+Font Awesomeとは様々なアイコンをフォントとして利用できるようにしたもの
+利用するには<head>タグ内で<link rel="stylesheet" href="https://maxcdn...">と打つ
+アイコンを表示するには、例えば<span class="fa fa-heart"></span>とする
+
+
+HTML要素に対してlink_toメソッドを使うには少し異なる書き方をする必要がある
+<%= link_to("<span...></span>", "URL") %>と書くとブラウザには<span...></span>と表示されてしまう
+そこで、
+<%= link_to("URL") do %>
+  <span...></span>
+<% end %>
+と書けばブラウザにアイコンを表示しながらlink_toを使うことができる
+
+
+データの件数を取得するにはcountメソッドを使う
+Like.where(post_id: 1).countなど

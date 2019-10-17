@@ -1,0 +1,25 @@
+マイグレーションファイルのみを作成するにはrails g migration ファイル名とする
+そうするとdb/migrateフォルダにファイルが追加される
+
+
+テーブルに変更を加えたい場合は、マイグレーションファイルのchangeメソッドに変更内容を書く
+追加する場合はadd_column :テーブル名, :カラム名, :データ型のように書く
+
+rails db:migrateはchangeメソッドの中身を実行するためのコマンド
+
+
+画像を表示する場合、ビューには<img src="<%= "/user_images/#{@user.image_name}" %>">のように書く
+データベースに画像名を入れることで画像名から画像を参照することが可能となる
+
+
+ビューに<input name="image" type="file">と書くと、ファイルを選択できる欄が出る
+
+画像の送信時は<%= form_tag("~", {multipart: true}) do %>のようにmultipart:trueをつける
+
+
+ファイルの作成にはFile.write("ファイルの場所", "ファイルの中身")とかく
+
+
+@user.image_name = "#{@user.id}.jpg"でファイル名をデータベースに保存する
+
+image = params[:image]で画像の情報を受け取り、File.binwrite("ファイルの場所", image.read)でファイルデータを保存する

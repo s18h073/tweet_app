@@ -1,0 +1,32 @@
+modelsフォルダのファイルにはバリデーションを設定できる
+validates :検証するカラム名, {presence: true}でそのカラムのデータが空になることを防ぐなど
+{length: {maximum: 140}}で140文字以上になるのを防ぐなど
+
+また、メソッドも追加定義できる
+def post
+  return Post.find_by(id: self.id)
+endなど
+
+
+post.saveは戻り値として保存成功の場合にはtrue、失敗の場合にはfalseを返す
+つまり、if文によって保存成功時と失敗時の処理を作ることができる
+
+
+renderメソッドは引数のURLのアクションを経由せずにそのままビューを表示できる
+redirect_toでは転送していたためそれのアクションも読み込まれていた
+
+
+post.errors.full_messagesは通常は空配列だがpost.saveからfalseが返ってきたときpost.errors.full_messagesにはエラー内容が勝手に入っている
+
+
+ページに1度だけ表示されるメッセージをフラッシュという
+使うときはfalsh[:notice] = "~"とアクションに書いておきビューにはfalsh[:notice]の中身があるなら表示するという処理を書く
+
+
+@post = Post.newとアクションに書いておくとビューの@postが定義されてないというエラーを解決できる
+post.saveはしてないのでこの書き方自体に問題はない、post.saveをするとバリデーションエラーとなる
+
+
+
+
+
