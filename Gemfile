@@ -5,9 +5,7 @@ ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
-# 開発環境(ローカル)ではSQLite3を使用
 gem 'sqlite3', group: :development
-
 # 本番環境(heroku)ではPostgreSQLを使用
 gem 'pg', group: :production
 # Use Puma as the app server
